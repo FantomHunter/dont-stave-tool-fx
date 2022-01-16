@@ -1,6 +1,7 @@
 package org.codehunter.dontstave.cheatfx.service;
 
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -9,7 +10,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.robot.Robot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehunter.dontstave.cheatfx.App;
 import org.codehunter.dontstave.cheatfx.model.Item;
+
+import java.io.InputStream;
 
 public class InventoryMenuItemFactory implements IMenuItemFactory {
     Logger log = LogManager.getLogger(InventoryMenuItemFactory.class);
@@ -18,8 +22,17 @@ public class InventoryMenuItemFactory implements IMenuItemFactory {
     public MenuItem createMenuItem(Item item) {
         MenuItem menuItem = new MenuItem(item.name());
         log.info("item imageurl: " + item.imageUrl());
-
-        ImageView imageView = new ImageView(item.imageUrl());
+        ImageView imageView = new ImageView();
+        InputStream imageUrl = App.class.getClassLoader().getResourceAsStream("/"+ item.imageUrl());
+        if (imageUrl != null) {
+            Image image = new Image(imageUrl);
+            imageView.setImage(image);
+        } else {
+            InputStream defaultImage = App.class.getClassLoader().getResourceAsStream("/image/default.png");
+            if (defaultImage != null) {
+                imageView.setImage(new Image(defaultImage));
+            }
+        }
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         menuItem.setGraphic(imageView);
