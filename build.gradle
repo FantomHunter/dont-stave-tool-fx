@@ -1,0 +1,45 @@
+buildscript {
+    ext {
+        junitVersion = '5.8.2'
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id "org.javamodularity.moduleplugin" version "1.8.10"
+    id 'org.beryx.jlink' version '2.24.4'
+}
+
+group 'org.codehunter.dontstave.cheatfx'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+targetCompatibility = "17"
+sourceCompatibility = "17"
+javafx {
+    version = "17"
+    modules = ['javafx.controls']
+}
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:${junitVersion}'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:${junitVersion}'
+}
+
+application {
+    mainClass = "org.codehunter.dontstave.cheatfx.App"
+    mainModule = "org.codehunter.dontstave.cheatfx"
+}
+
+jlink {
+    launcher {
+        name = 'Dont Stave Tool FX'
+    }
+}
+test {
+    useJUnitPlatform()
+}
