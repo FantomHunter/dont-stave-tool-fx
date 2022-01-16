@@ -5,10 +5,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import org.codehunter.dontstave.cheatfx.App;
 import org.codehunter.dontstave.cheatfx.model.Item;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -34,8 +31,15 @@ public final class CsvUtil {
 //                    String imageUrl = String.valueOf(Paths.get(CsvUtil.class.getClassLoader().getResource("image/" + line[1] + ".png").toURI()));
 //                    String imageUrl = String.valueOf(Paths.get(ClassLoader.getSystemResource("/image/" + line[1] + ".png").toURI()));
 //                    String imageUrl = String.valueOf(classloader.getResource("image/" +  line[1] + ".png"));
-                    String imageUrl =path.replace("inventory_data.csv","image/" +  line[1] + ".png");
-                    itemList.add(new Item(line[0], line[1], line[2], "file:"+imageUrl));
+//                    String imageUrl =path.replace("inventory_data.csv","image/" +  line[1] + ".png");
+                    String imageUrl = "image/" + line[1] + ".png";
+                    File file = new File("src/main/resources/image/" + line[1] + ".png");
+                    if (file.exists()) {
+                        itemList.add(new Item(line[0], line[1], line[2], imageUrl));
+                    }else {
+
+                        itemList.add(new Item(line[0], line[1], line[2], "image/default.png"));
+                    }
                 } else {
                     Optional.of(line)
                             .filter(e -> Pattern.matches(URL_PATTERN, e[2]))

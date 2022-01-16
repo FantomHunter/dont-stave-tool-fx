@@ -11,12 +11,14 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehunter.dontstave.cheatfx.model.Item;
 import org.codehunter.dontstave.cheatfx.service.InventoryMenuItemFactory;
 import org.codehunter.dontstave.cheatfx.util.CsvUtil;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
@@ -28,7 +30,7 @@ public class App extends Application {
     private static final Logger log = LogManager.getLogger(App.class);
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws URISyntaxException {
         log.info("App start!");
         stage.setTitle("Don't Stave Cheat Tool By JavaFX");
         var javaVersion = SystemInfo.javaVersion();

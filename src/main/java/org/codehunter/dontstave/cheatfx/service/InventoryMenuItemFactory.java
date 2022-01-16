@@ -7,12 +7,18 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.robot.Robot;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehunter.dontstave.cheatfx.model.Item;
 
-public class InventoryMenuItemFactory implements IMenuItemFactory{
+public class InventoryMenuItemFactory implements IMenuItemFactory {
+    Logger log = LogManager.getLogger(InventoryMenuItemFactory.class);
+
     @Override
     public MenuItem createMenuItem(Item item) {
         MenuItem menuItem = new MenuItem(item.name());
+        log.info("item imageurl: " + item.imageUrl());
+
         ImageView imageView = new ImageView(item.imageUrl());
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
