@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.codehunter.dontstave.cheatfx.App;
 import org.codehunter.dontstave.cheatfx.model.Item;
+import org.codehunter.dontstave.cheatfx.model.ItemType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,11 +35,11 @@ public final class CsvUtil {
             while ((line = csvReader.readNext()) != null) {
                 if (isUseStaticImage) {
                     String imageUrl = line[1] + ".png";
-                    itemList.add(new Item(line[0], line[1], line[2], imageUrl));
+                    itemList.add(new Item(line[0], line[1], line[2], imageUrl, ItemType.valueOf(line[3].toUpperCase())));
                 } else {
                     Optional.of(line)
                             .filter(e -> Pattern.matches(URL_PATTERN, e[2]))
-                            .map(e -> new Item(e[0], e[1], e[2]))
+                            .map(e -> new Item(e[0], e[1], e[2], ItemType.valueOf(e[3].toUpperCase())))
                             .filter(item -> Pattern.matches(IMAGE_URL_PATTERN, item.imageUrl()))
                             .ifPresent(itemList::add);
                 }

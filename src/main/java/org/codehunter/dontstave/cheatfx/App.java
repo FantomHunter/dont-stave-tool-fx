@@ -14,9 +14,11 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehunter.dontstave.cheatfx.model.Item;
+import org.codehunter.dontstave.cheatfx.model.ItemType;
 import org.codehunter.dontstave.cheatfx.service.InventoryMenuItemFactory;
 import org.codehunter.dontstave.cheatfx.util.CsvUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,10 +43,19 @@ public class App extends Application {
         List<Item> listItemFromCsv = CsvUtil.getListItemFromCsv(path, true);
         InventoryMenuItemFactory inventoryMenuItemFactory = new InventoryMenuItemFactory();
 
-        listItemFromCsv.stream()
-                .peek(item -> log.info("create menu item: " + item.name()))
-                .map(inventoryMenuItemFactory::createMenuItem)
-                .forEach(giveInventoryMenu.getItems()::add);
+        Arrays.stream(ItemType.values()).sequential().forEach(itemType -> {
+            Menu giveInventoryByTypeMenu = new Menu(itemType.name());
+            listItemFromCsv.stream()
+                    .filter(item -> item.itemType() == itemType)
+                    .peek(item -> log.info("create menu item: " + item.name()))
+                    .map(inventoryMenuItemFactory::createMenuItem)
+                    .forEach(giveInventoryByTypeMenu.getItems()::add);
+            giveInventoryMenu.getItems().add(giveInventoryByTypeMenu);
+        });
+//        listItemFromCsv.stream()
+//                .peek(item -> log.info("create menu item: " + item.name()))
+//                .map(inventoryMenuItemFactory::createMenuItem)
+//                .forEach(giveInventoryMenu.getItems()::add);
 
         giveMenu.getItems().add(giveInventoryMenu);
 
