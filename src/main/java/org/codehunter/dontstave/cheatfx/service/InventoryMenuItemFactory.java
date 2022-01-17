@@ -20,7 +20,7 @@ public class InventoryMenuItemFactory implements IMenuItemFactory {
 
     @Override
     public MenuItem createMenuItem(Item item) {
-        MenuItem menuItem = new MenuItem(item.name());
+        MenuItem menuItem = new MenuItem(item.name() + "   [" + item.code() + "]");
         log.info("item imageurl: " + item.imageUrl());
         ImageView imageView = new ImageView();
         InputStream imageUrl = App.class.getClassLoader().getResourceAsStream(item.imageUrl());

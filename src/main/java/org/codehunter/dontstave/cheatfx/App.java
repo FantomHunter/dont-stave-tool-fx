@@ -28,7 +28,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         log.info("App start!");
-        stage.setTitle("Don't Stave Cheat Tool By JavaFX");
+        stage.setTitle("Don't Stave Cheat Tool");
         var javaVersion = SystemInfo.javaVersion();
         var javafxVersion = SystemInfo.javafxVersion();
 
@@ -74,7 +74,7 @@ public class App extends Application {
 //        });
 //        vBox.getChildren().add(textField);
 
-        var scene = new Scene(vBox, 640, 80);
+        var scene = new Scene(vBox, 300, 80);
         stage.setAlwaysOnTop(true);
         stage.setScene(scene);
         stage.show();
