@@ -23,12 +23,13 @@ public class InventoryMenuItemFactory implements IMenuItemFactory {
         MenuItem menuItem = new MenuItem(item.name());
         log.info("item imageurl: " + item.imageUrl());
         ImageView imageView = new ImageView();
-        InputStream imageUrl = App.class.getClassLoader().getResourceAsStream("/"+ item.imageUrl());
+        InputStream imageUrl = App.class.getClassLoader().getResourceAsStream(item.imageUrl());
         if (imageUrl != null) {
             Image image = new Image(imageUrl);
             imageView.setImage(image);
         } else {
-            InputStream defaultImage = App.class.getClassLoader().getResourceAsStream("/image/default.png");
+            log.info("Image not found, use the default: ");
+            InputStream defaultImage = App.class.getClassLoader().getResourceAsStream("default.png");
             if (defaultImage != null) {
                 imageView.setImage(new Image(defaultImage));
             }

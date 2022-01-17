@@ -11,16 +11,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehunter.dontstave.cheatfx.model.Item;
 import org.codehunter.dontstave.cheatfx.service.InventoryMenuItemFactory;
 import org.codehunter.dontstave.cheatfx.util.CsvUtil;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -30,7 +26,7 @@ public class App extends Application {
     private static final Logger log = LogManager.getLogger(App.class);
 
     @Override
-    public void start(Stage stage) throws URISyntaxException {
+    public void start(Stage stage) {
         log.info("App start!");
         stage.setTitle("Don't Stave Cheat Tool By JavaFX");
         var javaVersion = SystemInfo.javaVersion();
@@ -41,13 +37,7 @@ public class App extends Application {
         Menu giveMenu = new Menu("Give");
         Menu giveInventoryMenu = new Menu("Inventory");
 
-        //            List<Item> listItemFromCsv = CsvUtil.getListItemFromCsv(
-//                    String.valueOf(Paths.get(ClassLoader.getSystemResource("inventory_data.csv").toURI())),
-//                    true);
-//        String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-//        String path = App.class.getResource("/inventory_data.csv").toURI().toString();
-//        String path = ClassLoader.getSystemResource("inventory_data.csv").getPath();
-        String path = "src/main/resources/inventory_data.csv";
+        String path = "inventory_data.csv";
         List<Item> listItemFromCsv = CsvUtil.getListItemFromCsv(path, true);
         InventoryMenuItemFactory inventoryMenuItemFactory = new InventoryMenuItemFactory();
 
@@ -55,12 +45,6 @@ public class App extends Application {
                 .peek(item -> log.info("create menu item: " + item.name()))
                 .map(inventoryMenuItemFactory::createMenuItem)
                 .forEach(giveInventoryMenu.getItems()::add);
-
-//        for (Item item : listItemFromCsv) {
-//            log.info("create menu item: " + item.name());
-//            MenuItem menuItem = inventoryMenuItemFactory.createMenuItem(item);
-//            giveInventoryMenu.getItems().add(menuItem);
-//        }
 
         giveMenu.getItems().add(giveInventoryMenu);
 

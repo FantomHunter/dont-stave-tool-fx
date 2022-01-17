@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -25,14 +26,14 @@ public final class CsvUtil {
     public static final String URL_PATTERN = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
     public static List<Item> getListItemFromCsv(String path, boolean isUseStaticImage) {
-        InputStream in = App.class.getClassLoader().getResourceAsStream("inventory_data.csv");
-        try (Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);) {
+        InputStream in = App.class.getClassLoader().getResourceAsStream(path);
+        try (Reader reader = new InputStreamReader(Objects.requireNonNull(in), StandardCharsets.UTF_8)) {
             List<Item> itemList = new ArrayList<>();
             CSVReader csvReader = new CSVReader(reader);
             String[] line;
             while ((line = csvReader.readNext()) != null) {
                 if (isUseStaticImage) {
-                    String imageUrl = "image/" + line[1] + ".png";
+                    String imageUrl = line[1] + ".png";
                     itemList.add(new Item(line[0], line[1], line[2], imageUrl));
                 } else {
                     Optional.of(line)
